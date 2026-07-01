@@ -7,6 +7,9 @@ const Mess = sequelize.define(
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        len: [3, 255],
+      },
     },
     location: {
       type: DataTypes.STRING,
@@ -18,6 +21,10 @@ const Mess = sequelize.define(
       validate: {
         min: 1000,
       },
+    },
+    rating: {
+      type: DataTypes.FLOAT,
+      defaultValue: 0,
     },
   },
   {

@@ -24,7 +24,7 @@ const Mess = sequelize.define(
     },
     rating: {
       type: DataTypes.FLOAT,
-      defaultValue: 0,
+      allowNull: false,
     },
   },
   {

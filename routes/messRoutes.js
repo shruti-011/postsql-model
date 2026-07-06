@@ -4,32 +4,34 @@ const Mess = require("../models/Mess");
 const { Op } = require("sequelize");
 
 // =====================
+
+// ======================// =====================
+// GET ALL MESSES (WITH OPTIONAL LOCATION FILTER)
+// =====================
 router.get("/", async (req, res) => {
   try {
-    const messes = await Mess.findAll();
+    // URL se location query parameter lo
+    const { location } = req.query;
+
+    let messes;
+
+    // Agar location di gayi hai to sirf us location ka data lao
+    if (location) {
+      messes = await Mess.findAll({
+        where: {
+          location: location,
+        },
+      });
+    }
+    // Agar location nahi di gayi to saara data lao
+    else {
+      messes = await Mess.findAll();
+    }
+
     res.json(messes);
   } catch (err) {
     res.status(500).json({
       message: "Server error",
-      error: err.message,
-    });
-  }
-});
-// ======================
-// GET BY ID
-// ======================
-router.get("/:id", async (req, res) => {
-  try {
-    const mess = await Mess.findByPk(req.params.id);
-
-    if (!mess) {
-      return res.status(404).json({ message: "Mess not found" });
-    }
-
-    res.json(mess);
-  } catch (err) {
-    res.status(400).json({
-      message: "Invalid ID",
       error: err.message,
     });
   }
@@ -40,12 +42,13 @@ router.get("/:id", async (req, res) => {
 // ======================
 router.post("/", async (req, res) => {
   try {
-    const { name, location, price } = req.body;
+    const { name, location, price, rating } = req.body;
 
     const newMess = await Mess.create({
       name,
       location,
       price,
+      rating,
     });
 
     res.status(201).json(newMess);
@@ -68,9 +71,9 @@ router.put("/:id", async (req, res) => {
       return res.status(404).json({ message: "Mess not found" });
     }
 
-    const { name, location, price } = req.body;
+    const { name, location, price, rating } = req.body;
 
-    await mess.update({ name, location, price });
+    await mess.update({ name, location, price, rating });
 
     res.json({
       message: "Updated successfully",

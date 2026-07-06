@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 require("dotenv").config();
 
 const sequelize = require("./config/db");
@@ -6,7 +7,7 @@ const Mess = require("./models/Mess"); // Model import (sync ke liye)
 const messRoutes = require("./routes/messRoutes");
 
 const app = express();
-
+app.use(cors());
 // Middleware
 app.use(express.json());
 

@@ -7,7 +7,13 @@ const Mess = require("./models/Mess"); // Model import (sync ke liye)
 const messRoutes = require("./routes/messRoutes");
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://frontend-to-backend-mess.onrender.com",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  }),
+);
 // Middleware
 app.use(express.json());
 

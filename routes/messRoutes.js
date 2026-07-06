@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Mess = require("../models/Mess");
+const Mess = require("../models/messmodel");
 const { Op } = require("sequelize");
 
 // =====================
